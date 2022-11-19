@@ -30,4 +30,9 @@ public class Person {
         this.accountID = accountID;
     }
 
+    public Person(String username, String password, int accountID) {
+        this.username = username;
+        this.password = password;
+        this.accountID = accountID;
+    }
 }

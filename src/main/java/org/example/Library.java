@@ -14,7 +14,7 @@ public class Library {
     private int books;
     private int booksOnLoan;
     private int booksAvailable;
-    private ArrayList<User> users;
+    private List<User> users = new ArrayList<>();
     //where all the books are stored
 
     public int getBooks() {
@@ -41,11 +41,11 @@ public class Library {
         this.booksAvailable = booksAvailable;
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
@@ -63,5 +63,12 @@ public class Library {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Book> listAllBooks(List<Book> bookList){
+        for (Book book : bookList) {
+            System.out.println(book.getInfo());
+        }
+        return bookList;
     }
 }

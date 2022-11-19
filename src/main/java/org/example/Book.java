@@ -23,6 +23,8 @@ public class Book {
 
     private boolean isLoaned = false;
 
+    private int timesLoaned = 0;
+
 
     public String getTitle() {
         return Title;
@@ -78,6 +80,17 @@ public class Book {
 
     public void setLoaned(boolean loaned) {
         isLoaned = loaned;
+    }
+
+    public int getTimesLoaned() {
+        return timesLoaned;
+    }
+
+    public void setTimesLoaned(int timesLoaned) {
+        this.timesLoaned = timesLoaned;
+    }
+
+    public Book() {
     }
 
     public String getInfo(){
