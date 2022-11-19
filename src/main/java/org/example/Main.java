@@ -33,22 +33,23 @@ public class Main {
         Admin admin = null;
         if (selection == 1) {
             user = new User(interaction.createUsername(selection), interaction.createPassword(selection), 1);
+            library.getUsers().add(user);
         } else if (selection == 2) {
             admin = new Admin(interaction.createUsername(selection), interaction.createPassword(selection), 2, true);
         }
-        System.out.println(user);
-        System.out.println(admin);
-        if(user != null){
-            interaction.userActionsList();
-            int userSelection = scanner.nextInt();
-            interaction.checkUserSelection(userSelection, library, bookList);
-        } else {
-            interaction.adminActionsList();
-            int adminSelection = scanner.nextInt();
-            interaction.checkAdminSelection(adminSelection, library, bookList);
-        }
-//        List<Book> bookList = library.fillBookshelves();
-//        library.listAllBooks(bookList);
+        interaction.isExit();
+        do {
+            if (user != null) {
+                interaction.userActionsList();
+                int userSelection = scanner.nextInt();
+                interaction.checkUserSelection(user, userSelection, library, bookList);
+            } else {
+                interaction.adminActionsList();
+                int adminSelection = scanner.nextInt();
+                interaction.checkAdminSelection(admin, adminSelection, library, bookList);
+            }
+            interaction.wannaExit(scanner);
+        } while (!interaction.isExit());
 //        System.out.println(user.loanBook(bookList.get(0)));
 //        System.out.println(user.returnBook(bookList.get(0)));
     }

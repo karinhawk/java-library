@@ -1,10 +1,20 @@
 package org.example;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Interaction {
     Scanner scanner = new Scanner(System.in);
+    boolean exit = false;
+
+    public boolean isExit() {
+        return exit;
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
 
     public void welcome(){
         System.out.println("Welcome to Library Online. Please create an account to continue.");
@@ -40,15 +50,25 @@ public class Interaction {
     public void userActionsList(){
         System.out.println("What would you like to do?");
         System.out.println("1) View list of books in library");
+        System.out.println("2) Search for a book to loan/return");
         System.out.println("2) View books I have on loan");
     }
 
-    public void checkUserSelection(int userSelection, Library library, List<Book> bookList){
-        if (userSelection == 1) {
+    public void checkUserSelection(User user, int userSelection, Library library, List<Book> bookList){
+        switch (userSelection){
+            case 1:
             System.out.println("You have selected to view all books in the library");
             library.listAllBooks(bookList);
-        } else {
-            System.out.println("You have selected to view books you have on loan");
+            break;
+            case 2:
+                System.out.println("You have selected to search for a specific book. Please type in the Title:");
+                String title = scanner.nextLine();
+                library.searchForBook(title);
+            break;
+            default:
+                System.out.println("You have selected to view books you have on loan");
+                user.getListOfLoanedBooks();
+                break;
         }
     }
     public void adminActionsList(){
@@ -59,7 +79,7 @@ public class Interaction {
         System.out.println("4) Run report of loaned books");
     }
 
-    public void checkAdminSelection(int adminSelection, Library library, List<Book> bookList){
+    public void checkAdminSelection(Admin admin, int adminSelection, Library library, List<Book> bookList){
 
         switch (adminSelection){
             case 1:
@@ -68,14 +88,26 @@ public class Interaction {
                 break;
             case 2:
                 System.out.println("you have selected to check library stats");
+                library.countBooks(bookList);
                 break;
             case 3:
                 System.out.println("you have selected to view a list of all users");
+                library.numberOfUsers();
                 break;
             default:
                 System.out.println("you have selected to run a report on all loaned books");
                 break;
         }
+    }
+
+    public boolean wannaExit(Scanner scanner){
+        System.out.println("Do you wish to continue? Y/N");
+        if (Objects.equals(scanner.nextLine(), "Y") || Objects.equals(scanner.nextLine(), "y")){
+            setExit(false);
+            return exit;
+        }
+        setExit(true);
+        return exit;
     }
 
 }

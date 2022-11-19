@@ -49,8 +49,29 @@ public class Library {
         this.users = users;
     }
 
-    public String countBooks(){
-        return "The library currently has " + getBooks() + " books. " + getBooksAvailable() + " of which are available, and " + getBooksOnLoan() + " of which are currently on loan.";
+    public void countBooks(List<Book> booklist){
+        System.out.println("The library currently has " + booklist.size() + " books. " + countBooksAvailable(booklist) + " of which are available, and " + countBooksOnLoan(booklist) + " of which are currently on loan.");
+    }
+
+    public int countBooksAvailable(List<Book> bookList){
+        //booklist if book !isLoaned then add one to available
+        List<Book> numberOfAvailableBooks = new ArrayList<>();
+        for (Book book: bookList){
+            if(!book.isLoaned()){
+                numberOfAvailableBooks.add(book);
+            }
+        }
+        return numberOfAvailableBooks.size();
+    }
+
+    public int countBooksOnLoan(List<Book> bookList){
+        List<Book> numberOfLoanedBooks = new ArrayList<>();
+        for (Book book: bookList){
+            if(book.isLoaned()){
+                numberOfLoanedBooks.add(book);
+            }
+        }
+        return numberOfLoanedBooks.size();
     }
 
     public List<Book> fillBookshelves(){
@@ -70,5 +91,13 @@ public class Library {
             System.out.println(book.getInfo());
         }
         return bookList;
+    }
+
+    public int numberOfUsers(){
+        System.out.println("hello");
+        return getUsers().size();
+    }
+
+    public void searchForBook(String title) {
     }
 }
