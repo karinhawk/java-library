@@ -1,96 +1,88 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Book {
 
-    private String name;
-    private String author;
-    private ArrayList<String> genres;
-    private String publisher;
-    private boolean onLoan;
-    private boolean available;
+    @JsonProperty("Title")
+    private String Title;
+    @JsonProperty("Author")
+    private String Author;
+    @JsonProperty("Genre")
+    private String Genre;
+    @JsonProperty("Publisher")
+    private String Publisher;
+    @JsonProperty("Number")
+    private int Number;
+    @JsonProperty("SubGenre")
+    private String Subgenre;
 
-    private String loanedBy;
+    private boolean isLoaned = false;
 
-    public String getName() {
-        return name;
+
+    public String getTitle() {
+        return Title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        Title = title;
     }
 
     public String getAuthor() {
-        return author;
+        return Author;
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        Author = author;
     }
 
-    public ArrayList<String> getGenres() {
-        return genres;
+    public String getGenre() {
+        return Genre;
     }
 
-    public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
+    public void setGenre(String genre) {
+        Genre = genre;
     }
 
     public String getPublisher() {
-        return publisher;
+        return Publisher;
     }
 
     public void setPublisher(String publisher) {
-        this.publisher = publisher;
+        Publisher = publisher;
     }
 
-    public boolean isOnLoan() {
-        return onLoan;
+    public int getNumber() {
+        return Number;
     }
 
-    public void setOnLoan(boolean onLoan) {
-        this.onLoan = onLoan;
+    public void setNumber(int number) {
+        Number = number;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public String getSubgenre() {
+        return Subgenre;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setSubgenre(String subgenre) {
+        Subgenre = subgenre;
     }
 
-    public String getLoanedBy() {
-        return loanedBy;
+    public boolean isLoaned() {
+        return isLoaned;
     }
 
-    public void setLoanedBy(String loanedBy) {
-        this.loanedBy = loanedBy;
-    }
-
-    public Book() {
-    }
-
-    public Book(String name, String author, ArrayList<String> genres, String publisher, boolean onLoan, boolean available, String loanedBy) {
-        this.name = name;
-        this.author = author;
-        this.genres = genres;
-        this.publisher = publisher;
-        this.onLoan = onLoan;
-        this.available = available;
-        this.loanedBy = loanedBy;
-    }
-    public void checkout(){
-
-    }
-
-    public void returnBook(){
-
+    public void setLoaned(boolean loaned) {
+        isLoaned = loaned;
     }
 
     public String getInfo(){
-        return getName() + " by " + getAuthor() + " under the genres " + getGenres() + " and published by " + getPublisher();
+        return getTitle() + " by " + getAuthor() + " under the genres " + getGenre() + " and " + getSubgenre() + " and published by " + getPublisher();
     }
+
 
 }

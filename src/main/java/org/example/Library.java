@@ -1,6 +1,13 @@
 package org.example;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Library {
 
@@ -9,7 +16,6 @@ public class Library {
     private int booksAvailable;
     private ArrayList<User> users;
     //where all the books are stored
-
 
     public int getBooks() {
         return books;
@@ -45,5 +51,17 @@ public class Library {
 
     public String countBooks(){
         return "The library currently has " + getBooks() + " books. " + getBooksAvailable() + " of which are available, and " + getBooksOnLoan() + " of which are currently on loan.";
+    }
+
+    public List<Book> fillBookshelves(){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            List<Book> bookList = mapper.readValue(new File("src/main/resources/books.json"), new TypeReference<List<Book>>() {
+            });
+            return bookList;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
