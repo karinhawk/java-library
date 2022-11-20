@@ -1,5 +1,8 @@
 package org.example;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -17,11 +20,14 @@ public class Interaction {
     }
 
     public void welcome(){
-        System.out.println("Welcome to Library Online. Please create an account to continue.");
+        System.out.println("Welcome to Library Online. Please login or create an account to continue.");
         System.out.println("---------------------------------------------");
         System.out.println("To create an account, please select 1 or 2.");
         System.out.println("1) I am a user");
         System.out.println("2) I am an admin");
+        System.out.println("To login, please select 3 or 4");
+        System.out.println("3) Login as user");
+        System.out.println("4) Login as admin");
     }
 
     public String createUsername(int selection){
@@ -94,7 +100,7 @@ public class Interaction {
         System.out.println("---------------------------------------------");
     }
 
-    public void checkAdminSelection(Admin admin, int adminSelection, Library library, List<Book> bookList){
+    public void checkAdminSelection(Admin admin, int adminSelection, Library library, List<Book> bookList) throws IOException {
 
         switch (adminSelection){
             case 1:
@@ -107,7 +113,7 @@ public class Interaction {
                 break;
             case 3:
                 System.out.println("you have selected to view a list of all users");
-                library.numberOfUsers();
+                admin.getListOfUsers();
                 break;
             case 4:
                 System.out.println("you have selected to run a report on all loaned books");

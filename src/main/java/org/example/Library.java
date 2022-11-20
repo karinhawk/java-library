@@ -14,7 +14,7 @@ public class Library {
     private int booksOnLoan;
     private int booksAvailable;
     private Map<String, String> users = new HashMap<>();
-    //where all the books are stored
+    private Map<String, String> admins = new HashMap<>();
 
     public int getBooks() {
         return books;
@@ -46,6 +46,14 @@ public class Library {
 
     public void setUsers(Map<String, String> users) {
         this.users = users;
+    }
+
+    public Map<String, String> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(Map<String, String> admins) {
+        this.admins = admins;
     }
 
     public void countBooks(List<Book> booklist){

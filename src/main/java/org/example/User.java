@@ -1,9 +1,10 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends Person {
+public class User extends Person implements Serializable {
 
     ArrayList<Book> booksLoaned = new ArrayList<>();
 

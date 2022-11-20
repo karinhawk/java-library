@@ -1,8 +1,12 @@
 package org.example;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.HashMap;
@@ -11,12 +15,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        File file = new File("src/main/resources/users.json");
-        Map<String, String> listOfUsers = new HashMap<>();
-
+        File usersFile = new File("src/main/resources/users.json");
+        File adminsFile = new File("src/main/resources/admins.json");
 
         Interaction interaction = new Interaction();
         Library library = new Library();
@@ -29,17 +31,26 @@ public class Main {
         if (selection == 1) {
             user = new User(interaction.createUsername(selection), interaction.createPassword(selection), 1);
             library.getUsers().put(user.getUsername(), user.getPassword());
-            System.out.println(library.getUsers());
-            //write to json file here - new user
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bw = new BufferedWriter(fw);
+
+            FileWriter usersFw = new FileWriter(usersFile.getAbsoluteFile(), true);
+            BufferedWriter usersBw = new BufferedWriter(usersFw);
             JSONObject jsonUsers = new JSONObject(library.getUsers());
-            bw.write(String.valueOf(jsonUsers));
-            bw.close();
-            fw.close();
+
+            usersBw.write(String.valueOf(jsonUsers));
+            usersBw.close();
+            usersFw.close();
 
         } else if (selection == 2) {
             admin = new Admin(interaction.createUsername(selection), interaction.createPassword(selection), 2, true);
+            library.getAdmins().put(admin.getUsername(), admin.getPassword());
+
+            FileWriter adminsFw = new FileWriter(adminsFile.getAbsoluteFile(), true);
+            BufferedWriter adminsBw = new BufferedWriter(adminsFw);
+            JSONObject jsonAdmins = new JSONObject(library.getAdmins());
+
+            adminsBw.write(String.valueOf(jsonAdmins));
+            adminsBw.close();
+            adminsFw.close();
         }
         do {
             if (user != null) {
