@@ -48,7 +48,6 @@ public class Main {
                 int adminSelection = scanner.nextInt();
                 interaction.checkAdminSelection(admin, adminSelection, library, bookList);
             }
-            interaction.wannaExit(scanner);
         } while (!interaction.isExit());
 //        System.out.println(user.loanBook(bookList.get(0)));
 //        System.out.println(user.returnBook(bookList.get(0)));

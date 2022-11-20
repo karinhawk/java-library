@@ -15,32 +15,34 @@ public class User extends Person {
     public List<String> getListOfLoanedBooks(){
         List<String> listOfBooks = new ArrayList<>();
         for (Book book: booksLoaned) {
-            listOfBooks.add(book.getInfo());
+            listOfBooks.add(book.getTitle());
         }
         return listOfBooks;
     }
 
 
 
-    public String loanBook(Book book){
+    public void loanBook(Book book){
         if(!book.isLoaned()) {
             book.setLoaned(true);
+            booksLoaned.add(book);
             book.setTimesLoaned(book.getTimesLoaned() + 1);
             System.out.println(book.getTimesLoaned());
-            booksLoaned.add(book);
-            return "You have loaned " + book.getTitle() + " by " + book.getAuthor() + ". Here is your list of currently loaned books: " + getListOfLoanedBooks();
+            System.out.println("You have loaned " + book.getTitle() + " by " + book.getAuthor() + ". Here is your list of currently loaned books: " + getListOfLoanedBooks());
 
+        } else {
+            System.out.println("That book is currently unavailable");
         }
-        return "That book is currently unavailable";
     }
 
-    public String returnBook(Book book){
+    public void returnBook(Book book){
         if(book.isLoaned()){
             book.setLoaned(false);
+            booksLoaned.remove(book);
             System.out.println(book.getTimesLoaned());
-            return "You returned " + book.getTitle() + " by " + book.getAuthor() + ". You found it fascinating.";
+            System.out.println("You returned " + book.getTitle() + " by " + book.getAuthor() + ". You found it fascinating.");
+        } else {
+            System.out.println("You can't return something you haven't loaned!");
         }
-        return "You can't return something you haven't loaned!";
     }
-
 }

@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Library {
 
@@ -98,6 +100,29 @@ public class Library {
         return getUsers().size();
     }
 
-    public void searchForBook(String title) {
+    public void searchForBook(String title, List<Book> bookList, Scanner scanner, User user) {
+        for (Book book : bookList) {
+            if (book.getTitle().toLowerCase().contains(title)) {
+                System.out.println(book.getInfo());
+                System.out.println(book.isLoaned());
+                if (book.isLoaned() == true) {
+                    System.out.println("You currently have this book on loan. Would you like to return it? Y/N");
+                    if (Objects.equals(scanner.nextLine().toLowerCase(), "y")) {
+                        user.returnBook(book);
+                    } else {
+                        System.out.println("Returning to main menu...");
+                    }
+                } else {
+                    System.out.println("This book is currently available. Would you like to loan it?");
+                    if (Objects.equals(scanner.nextLine().toLowerCase(), "y")) {
+                        user.loanBook(book);
+                    } else {
+                        System.out.println("Returning to main menu...");
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
     }
 }

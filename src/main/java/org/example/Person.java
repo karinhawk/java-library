@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Person {
 
     private String username;
@@ -34,5 +36,12 @@ public class Person {
         this.username = username;
         this.password = password;
         this.accountID = accountID;
+    }
+    public boolean isNameMatching(String username){
+        return Objects.equals(username, getUsername());
+    }
+
+    public boolean isPasswordMatching(String password){
+        return Objects.equals(password, getPassword());
     }
 }
