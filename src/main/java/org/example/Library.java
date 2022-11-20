@@ -6,17 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Library {
 
     private int books;
     private int booksOnLoan;
     private int booksAvailable;
-    private List<User> users = new ArrayList<>();
+    private Map<String, String> users = new HashMap<>();
     //where all the books are stored
 
     public int getBooks() {
@@ -43,11 +40,11 @@ public class Library {
         this.booksAvailable = booksAvailable;
     }
 
-    public List<User> getUsers() {
+    public Map<String, String> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Map<String, String> users) {
         this.users = users;
     }
 
@@ -95,9 +92,8 @@ public class Library {
         return bookList;
     }
 
-    public int numberOfUsers(){
-        System.out.println("hello");
-        return getUsers().size();
+    public void numberOfUsers(){
+        System.out.println("hi");
     }
 
     public void searchForBook(String title, List<Book> bookList, Scanner scanner, User user) {
