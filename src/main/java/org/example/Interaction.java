@@ -2,13 +2,15 @@ package org.example;
 
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 public class Interaction {
     Scanner scanner = new Scanner(System.in);
+
+    Accounts accounts = new Accounts();
     boolean exit = false;
 
     public boolean isExit() {
@@ -20,6 +22,10 @@ public class Interaction {
     }
 
     public void welcome(){
+        System.out.println(" __    __ ____  ____   ___  ____  _  _      ___   __  __ __    __ __  __  ____\n" +
+                " ||    || || )) || \\\\ // \\\\ || \\\\ \\\\//     // \\\\  ||\\ || ||    || ||\\ || ||   \n" +
+                " ||    || ||=)  ||_// ||=|| ||_//  )/     ((   )) ||\\\\|| ||    || ||\\\\|| ||== \n" +
+                " ||__| || ||_)) || \\\\ || || || \\\\ //       \\\\_//  || \\|| ||__| || || \\|| ||___");
         System.out.println("Welcome to Library Online. Please login or create an account to continue.");
         System.out.println("---------------------------------------------");
         System.out.println("To create an account, please select 1 or 2.");
@@ -37,12 +43,14 @@ public class Interaction {
             System.out.println("Please enter a username");
             String username = scanner.nextLine();
             return username;
+        } else if (selection == 2) {
+            System.out.println("---------------------------------------------");
+            System.out.println("You have chosen: Admin");
+            System.out.println("Please enter a username");
+            String username = scanner.nextLine();
+            return username;
         }
-        System.out.println("---------------------------------------------");
-        System.out.println("You have chosen: Admin");
-        System.out.println("Please enter a username");
-        String username = scanner.nextLine();
-        return username;
+        return null;
     }
 
     public String createPassword(int selection){
@@ -50,10 +58,46 @@ public class Interaction {
             System.out.println("Please enter a password");
             String username = scanner.nextLine();
             return username;
+        } else if (selection == 2) {
+            System.out.println("Please enter a password");
+            String username = scanner.nextLine();
+            return username;
         }
-        System.out.println("Please enter a password");
-        String username = scanner.nextLine();
-        return username;
+        return null;
+    }
+
+    public boolean loginAdmin(int selection) throws IOException {
+        List<Map> allAdmins = accounts.getAdminsFromFile(scanner);
+        System.out.println("Enter your username");
+        String usernameInput = scanner.nextLine();
+        String password = accounts.grabAdminUsername(usernameInput, allAdmins);
+        if(password == null){
+            System.out.println("That admin username doesn't seem to exist. Please try again.");
+        }
+        System.out.println("Please enter your password");
+        String passwordInput = scanner.nextLine();
+        if(accounts.adminPasswordCorrect(passwordInput, password)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean loginUser(int selection) throws IOException {
+        Map usersMap = accounts.getUsersFromFile(scanner);
+        System.out.println("Enter your username");
+        String usernameInput = scanner.nextLine();
+        String password = accounts.grabUserUsername(usernameInput, usersMap);
+        if(password == null){
+            System.out.println("That user username doesn't seem to exist. Please try again.");
+        }
+        System.out.println("Please enter your password");
+        String passwordInput = scanner.nextLine();
+        if(accounts.userPasswordCorrect(passwordInput, password)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void userActionsList(){

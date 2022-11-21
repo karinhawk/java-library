@@ -51,6 +51,12 @@ public class Main {
             adminsBw.write(String.valueOf(jsonAdmins));
             adminsBw.close();
             adminsFw.close();
+        } else if (selection == 3){
+            System.out.println("You are logging in as a user");
+            interaction.loginUser(selection);
+        } else {
+            System.out.println("You are logging in as an admin");
+            interaction.loginAdmin(selection);
         }
         do {
             if (user != null) {
