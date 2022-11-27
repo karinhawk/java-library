@@ -10,14 +10,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 
 public class Admin extends Person {
 
     private boolean isAdmin = true;
 
-    public Admin(String username, String password, int accountID, boolean isAdmin) {
-        super(username, password, accountID);
+    public Admin(String username, String password) {
+        super(username, password);
         this.isAdmin = isAdmin;
     }
 
@@ -25,8 +26,8 @@ public class Admin extends Person {
 
     }
 
-    public int timesLoanedOut(){
-        return 0;
+    public int timesLoanedOut(Book book){
+        return book.getTimesLoaned();
     }
 
     public void getListOfUsers() throws IOException {
@@ -49,4 +50,12 @@ public class Admin extends Person {
 
     }
 
+    public void runReport(List<Book> bookList) {
+        System.out.println("REPORT OF ALL BOOKS CURRENTLY ON LOAN");
+        for (Book book: bookList) {
+            if(book.isLoaned()){
+                System.out.println(book.getTitle() + " by " + book.getAuthor());
+            }
+        }
+    }
 }

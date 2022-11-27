@@ -8,8 +8,8 @@ public class User extends Person implements Serializable {
 
     ArrayList<Book> booksLoaned = new ArrayList<>();
 
-    public User(String username, String password, int accountID) {
-        super(username, password, accountID);
+    public User(String username, String password) {
+        super(username, password);
     }
 
 

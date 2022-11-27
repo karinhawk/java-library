@@ -67,7 +67,7 @@ public class Interaction {
     }
 
     public boolean loginAdmin(int selection) throws IOException {
-        List<Map> allAdmins = accounts.getAdminsFromFile(scanner);
+        Admin[] allAdmins = accounts.getAdminsFromFile(scanner);
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
         String password = accounts.grabAdminUsername(usernameInput, allAdmins);
@@ -161,6 +161,7 @@ public class Interaction {
                 break;
             case 4:
                 System.out.println("you have selected to run a report on all loaned books");
+                admin.runReport(bookList);
                 break;
             default:
                 wannaExit(scanner);

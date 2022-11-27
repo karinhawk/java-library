@@ -1,1 +1,16 @@
-{"admin":"password"}{"admin2":"password2"}{"admin4":"password4"}
+[
+  {
+    "admin":"password",
+    "isAdmin": true,
+    "accountId": 12345,
+    "password": "supersecretpassword",
+    "username": "usernamegoeshere"
+  },
+  {
+    "admin":"password",
+    "isAdmin": true,
+    "accountId": 12345,
+    "password": "supersecretpassword",
+    "username": "usernamegoeshere"
+  }
+]{"admin9":"password9"}{"admin10":"password10"}

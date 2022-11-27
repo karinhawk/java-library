@@ -6,7 +6,6 @@ public class Person {
 
     private String username;
     private String password;
-    private int accountID;
 
     public String getUsername() {
         return username;
@@ -24,18 +23,10 @@ public class Person {
         this.password = password;
     }
 
-    public int getAccountID() {
-        return accountID;
-    }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
-
-    public Person(String username, String password, int accountID) {
+    public Person(String username, String password) {
         this.username = username;
         this.password = password;
-        this.accountID = accountID;
     }
     public boolean isNameMatching(String username){
         return Objects.equals(username, getUsername());
