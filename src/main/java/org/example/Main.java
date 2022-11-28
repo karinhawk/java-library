@@ -23,6 +23,9 @@ public class Main {
         Interaction interaction = new Interaction();
         Library library = new Library();
         Scanner scanner = new Scanner(System.in);
+        Accounts accounts = new Accounts();
+
+        //STORE USERS AS USERNAME, PASSWORD NOT AS JSON OMG
 
         do{
         List<Book> bookList = library.fillBookshelves();
@@ -31,9 +34,11 @@ public class Main {
         User user = null;
         Admin admin = null;
 
-            flow.creatingAccountOrLoggingIn(selection, user, interaction, library, usersFile, admin, adminsFile);
+            Person person = flow.creatingAccountOrLoggingIn(selection, user, interaction, library, usersFile, admin, adminsFile, accounts);
+
             do {
-                flow.actionsLoop(user, interaction, scanner, library, bookList, admin);
+                interaction.setExit(false);
+                flow.actionsLoop(interaction, scanner, library, bookList, person, accounts);
             }while(!interaction.isExit());
         } while(flow.isRunAgain);
     }

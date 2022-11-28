@@ -13,12 +13,14 @@ public class User extends Person implements Serializable {
     }
 
 
-    public List<String> getListOfLoanedBooks(){
-        List<String> listOfBooks = new ArrayList<>();
-        for (Book book: booksLoaned) {
-            listOfBooks.add(book.getTitle());
+    public void getListOfLoanedBooks(){
+        if(booksLoaned.isEmpty()){
+            System.out.println("You haven't loaned any books yet");
+        } else {
+            for (Book book : booksLoaned) {
+                System.out.println(book.getTitle() + " by " + book.getAuthor());
+            }
         }
-        return listOfBooks;
     }
 
 
@@ -29,8 +31,7 @@ public class User extends Person implements Serializable {
             booksLoaned.add(book);
             book.setTimesLoaned(book.getTimesLoaned() + 1);
             System.out.println(book.getTimesLoaned());
-            System.out.println("You have loaned " + book.getTitle() + " by " + book.getAuthor() + ". Here is your list of currently loaned books: " + getListOfLoanedBooks());
-
+            System.out.println("You have loaned " + book.getTitle() + " by " + book.getAuthor());
         } else {
             System.out.println("That book is currently unavailable");
         }

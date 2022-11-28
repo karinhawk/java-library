@@ -15,11 +15,15 @@ import java.util.Map;
 
 public class Admin extends Person {
 
-    private boolean isAdmin = true;
+
 
     public Admin(String username, String password) {
         super(username, password);
-        this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public boolean isAdmin(){
+        return true;
     }
 
     public void reportOfBooksOnLoan(){

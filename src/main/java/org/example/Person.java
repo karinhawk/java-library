@@ -7,6 +7,7 @@ public class Person {
     private String username;
     private String password;
 
+
     public String getUsername() {
         return username;
     }
@@ -34,5 +35,9 @@ public class Person {
 
     public boolean isPasswordMatching(String password){
         return Objects.equals(password, getPassword());
+    }
+
+    public boolean isAdmin(){
+        return false;
     }
 }

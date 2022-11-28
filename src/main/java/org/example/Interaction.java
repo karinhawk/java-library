@@ -1,17 +1,14 @@
 package org.example;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class Interaction {
     Scanner scanner = new Scanner(System.in);
 
     Accounts accounts = new Accounts();
-    boolean exit = false;
+
+    private boolean exit = false;
 
     public boolean isExit() {
         return exit;
@@ -20,6 +17,8 @@ public class Interaction {
     public void setExit(boolean exit) {
         this.exit = exit;
     }
+
+
 
     public void welcome(){
         System.out.println(" __    __ ____  ____   ___  ____  _  _      ___   __  __ __    __ __  __  ____\n" +
@@ -66,7 +65,7 @@ public class Interaction {
         return null;
     }
 
-    public boolean loginAdmin(int selection) throws IOException {
+    public Admin loginAdmin(int selection, Admin admin) throws IOException {
         Admin[] allAdmins = accounts.getAdminsFromFile(scanner);
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
@@ -76,14 +75,14 @@ public class Interaction {
         }
         System.out.println("Please enter your password");
         String passwordInput = scanner.nextLine();
-        if(accounts.adminPasswordCorrect(passwordInput, password)){
-            return true;
+        if(accounts.adminPasswordCorrect(passwordInput, password, admin)){
+            return admin;
         } else {
-            return false;
+            return null;
         }
     }
 
-    public boolean loginUser(int selection) throws IOException {
+    public User loginUser(int selection, User user) throws IOException {
         Map usersMap = accounts.getUsersFromFile(scanner);
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
@@ -93,10 +92,10 @@ public class Interaction {
         }
         System.out.println("Please enter your password");
         String passwordInput = scanner.nextLine();
-        if(accounts.userPasswordCorrect(passwordInput, password)){
-            return true;
+        if(accounts.userPasswordCorrect(passwordInput, password, user)){
+            return user;
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -126,7 +125,7 @@ public class Interaction {
                 System.out.println("You have selected to view books you have on loan");
                 System.out.println("---------------------------------------------");
                 System.out.println("Your currently loaned books:");
-                System.out.println(user.getListOfLoanedBooks());
+                user.getListOfLoanedBooks();
                 break;
             default:
                 wannaExit(scanner);

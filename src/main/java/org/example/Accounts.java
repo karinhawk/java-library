@@ -16,8 +16,19 @@ import java.util.stream.Collectors;
 
 public class Accounts {
 
-    public void registerUser(User user, Interaction interaction, int selection, Library library, File usersFile) throws IOException {
-        user = new User(interaction.createUsername(selection), interaction.createPassword(selection));
+    private String chosenPerson;
+
+    public String getChosenPerson() {
+        return chosenPerson;
+    }
+
+    public void setChosenPerson(String chosenPerson) {
+        this.chosenPerson = chosenPerson;
+    }
+
+
+    public User registerUser(Interaction interaction, int selection, Library library, File usersFile) throws IOException {
+        User user = new User(interaction.createUsername(selection), interaction.createPassword(selection));
         library.getUsers().put(user.getUsername(), user.getPassword());
 
         FileWriter usersFw = new FileWriter(usersFile.getAbsoluteFile(), true);
@@ -27,10 +38,13 @@ public class Accounts {
         usersBw.write(String.valueOf(jsonUsers));
         usersBw.close();
         usersFw.close();
+//        setActiveUser(user);
+        System.out.println(user);
+        return user;
     }
 
-    public void registerAdmin(Admin admin, Interaction interaction, int selection, Library library, File adminsFile) throws IOException {
-        admin = new Admin(interaction.createUsername(selection), interaction.createPassword(selection));
+    public Admin registerAdmin(Interaction interaction, int selection, Library library, File adminsFile) throws IOException {
+        Admin admin = new Admin(interaction.createUsername(selection), interaction.createPassword(selection));
         library.getAdmins().put(admin.getUsername(), admin.getPassword());
 
         FileWriter adminsFw = new FileWriter(adminsFile.getAbsoluteFile(), true);
@@ -40,6 +54,7 @@ public class Accounts {
         adminsBw.write(String.valueOf(jsonAdmins));
         adminsBw.close();
         adminsFw.close();
+        return admin;
     }
 
     public Admin[] getAdminsFromFile(Scanner scanner) throws IOException {
@@ -76,7 +91,7 @@ public class Accounts {
         return null;
     }
 
-    public boolean adminPasswordCorrect(String passwordInput, String password){
+    public boolean adminPasswordCorrect(String passwordInput, String password, Admin admin){
         if(passwordInput.equals(password)){
             return true;
         }
@@ -112,7 +127,7 @@ public class Accounts {
         return null;
     }
 
-    public boolean userPasswordCorrect(String passwordInput, String password){
+    public boolean userPasswordCorrect(String passwordInput, String password, User user){
         if(passwordInput.equals(password)){
             System.out.println("successfully logged in");
             return true;

@@ -7,34 +7,35 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Flow {
 
     public boolean isRunAgain = true;
 
-    public void creatingAccountOrLoggingIn(int selection, User user, Interaction interaction, Library library, File usersFile, Admin admin, File adminsFile) throws IOException {
-        Accounts accounts = new Accounts();
+    public Person creatingAccountOrLoggingIn(int selection, User user, Interaction interaction, Library library, File usersFile, Admin admin, File adminsFile, Accounts accounts) throws IOException {
         if (selection == 1) {
-            accounts.registerUser(user, interaction, selection, library, usersFile);
-
+            return accounts.registerUser(interaction, selection, library, usersFile);
         } else if (selection == 2) {
-            accounts.registerAdmin(admin, interaction, selection, library, usersFile);
+            return accounts.registerAdmin(interaction, selection, library, usersFile);
         } else if (selection == 3){
             System.out.println("You are logging in as a user");
-            interaction.loginUser(selection);
+            return interaction.loginUser(selection, user);
         } else {
             System.out.println("You are logging in as an admin");
-            interaction.loginAdmin(selection);
+            return interaction.loginAdmin(selection, admin);
         }
     }
 
-    public void actionsLoop(User user, Interaction interaction, Scanner scanner, Library library, List<Book> bookList, Admin admin) throws IOException {
-            if (user != null) {
+    public void actionsLoop(Interaction interaction, Scanner scanner, Library library, List<Book> bookList, Person person, Accounts accounts) throws IOException {
+            if (!person.isAdmin()) {
+                User user = (User) person;
                 interaction.userActionsList();
                 int userSelection = scanner.nextInt();
                 interaction.checkUserSelection(user, userSelection, library, bookList);
             } else {
+                Admin admin = (Admin) person;
                 interaction.adminActionsList();
                 int adminSelection = scanner.nextInt();
                 interaction.checkAdminSelection(admin, adminSelection, library, bookList);
