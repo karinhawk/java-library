@@ -38,7 +38,7 @@ public class Main {
 
             do {
                 interaction.setExit(false);
-                flow.actionsLoop(interaction, scanner, library, bookList, person, accounts);
+                flow.actionsLoop(interaction, scanner, library, bookList, person, accounts, usersFile);
             }while(!interaction.isExit());
         } while(flow.isRunAgain);
     }

@@ -8,10 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Accounts {
@@ -29,16 +27,15 @@ public class Accounts {
 
     public User registerUser(Interaction interaction, int selection, Library library, File usersFile) throws IOException {
         User user = new User(interaction.createUsername(selection), interaction.createPassword(selection));
-        library.getUsers().put(user.getUsername(), user.getPassword());
 
         FileWriter usersFw = new FileWriter(usersFile.getAbsoluteFile(), true);
         BufferedWriter usersBw = new BufferedWriter(usersFw);
-        JSONObject jsonUsers = new JSONObject(library.getUsers());
-
-        usersBw.write(String.valueOf(jsonUsers));
+        String userString = user.getUsername() + ", " + user.getPassword();
+        usersBw.newLine();
+        usersBw.write(userString);
         usersBw.close();
         usersFw.close();
-//        setActiveUser(user);
+
         System.out.println(user);
         return user;
     }
@@ -100,22 +97,28 @@ public class Accounts {
 
 
 
-    public Map<String, String> getUsersFromFile(Scanner scanner) throws IOException {
+    public Map<String, String> getUsersFromFile() throws IOException {
         InputStream is = new FileInputStream("src/main/resources/users.json");
-        Reader r = new InputStreamReader(is, "UTF-8");
-        Gson gson = new GsonBuilder().create();
-        JsonStreamParser p = new JsonStreamParser(r);
+        Map<String, String> usersMap = new HashMap<>();
+//        for(Map.Entry<String, String> entry : usersMap.entrySet()){
+//            System.out.println( entry.getKey() + " => " + entry.getValue() );
+//        }
 
-        while(p.hasNext()){
-            JsonElement e = p.next();
-            Map usersMap = null;
-            if(e.isJsonObject()){
-                usersMap = gson.fromJson(e, Map.class);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] values = line.split(", ");
+                String username = values[0];
+                String password = values[1];
+                usersMap.put(username, password);
+                System.out.println(usersMap);
             }
-            System.out.println(usersMap);
-            return usersMap;
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+        return usersMap;
     }
 
     public String grabUserUsername(String usernameInput, Map usersMap){
@@ -127,13 +130,16 @@ public class Accounts {
         return null;
     }
 
-    public boolean userPasswordCorrect(String passwordInput, String password, User user){
+    public User userPasswordCorrect(String passwordInput, String password, String usernameInput){
         if(passwordInput.equals(password)){
             System.out.println("successfully logged in");
-            return true;
+            User user = new User(usernameInput, password);
+            user.setUsername(usernameInput);
+            user.setPassword(password);
+            return user;
         }
         System.out.println("Incorrect Password");
-        return false;
+        return null;
     }
 
 

@@ -1,6 +1,6 @@
 package org.example;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Interaction {
@@ -83,7 +83,7 @@ public class Interaction {
     }
 
     public User loginUser(int selection, User user) throws IOException {
-        Map usersMap = accounts.getUsersFromFile(scanner);
+        Map usersMap = accounts.getUsersFromFile();
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
         String password = accounts.grabUserUsername(usernameInput, usersMap);
@@ -92,11 +92,7 @@ public class Interaction {
         }
         System.out.println("Please enter your password");
         String passwordInput = scanner.nextLine();
-        if(accounts.userPasswordCorrect(passwordInput, password, user)){
-            return user;
-        } else {
-            return null;
-        }
+        return accounts.userPasswordCorrect(passwordInput, password, usernameInput);
     }
 
     public void userActionsList(){
@@ -109,7 +105,7 @@ public class Interaction {
         System.out.println("---------------------------------------------");
     }
 
-    public void checkUserSelection(User user, int userSelection, Library library, List<Book> bookList){
+    public void checkUserSelection(User user, int userSelection, Library library, List<Book> bookList) throws FileNotFoundException {
         switch (userSelection){
             case 1:
             System.out.println("You have selected to view all books in the library");
@@ -168,7 +164,7 @@ public class Interaction {
         }
     }
 
-    public boolean wannaExit(Scanner scanner){
+    public boolean wannaExit(Scanner scanner) throws FileNotFoundException {
         System.out.println("Do you wish to log out? Y/N");
         if (Objects.equals(scanner.nextLine().toLowerCase(), "y")){
             setExit(true);
