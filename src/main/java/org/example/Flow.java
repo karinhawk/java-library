@@ -21,10 +21,10 @@ public class Flow {
             return accounts.registerAdmin(interaction, selection, library, adminsFile);
         } else if (selection == 3){
             System.out.println("You are logging in as a user");
-            return interaction.loginUser();
+            return interaction.loginUser(interaction);
         } else {
             System.out.println("You are logging in as an admin");
-            return interaction.loginAdmin();
+            return interaction.loginAdmin(interaction);
         }
     }
 

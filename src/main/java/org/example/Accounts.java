@@ -82,10 +82,11 @@ public class Accounts {
         return null;
     }
 
-    public Admin adminPasswordCorrect(String passwordInput, String password, String usernameInput){
+    public Admin adminPasswordCorrect(String passwordInput, String password, String usernameInput, Interaction interaction){
         if(passwordInput.equals(password)){
             System.out.println("successfully logged in");
             Admin admin = new Admin(usernameInput, password);
+            interaction.setLoggedIn(true);
             return admin;
         }
         System.out.println("Incorrect Password");
@@ -123,10 +124,11 @@ public class Accounts {
         return null;
     }
 
-    public User userPasswordCorrect(String passwordInput, String password, String usernameInput){
+    public User userPasswordCorrect(String passwordInput, String password, String usernameInput, Interaction interaction){
         if(passwordInput.equals(password)){
             System.out.println("successfully logged in");
             User user = new User(usernameInput, password);
+            interaction.setLoggedIn(true);
             return user;
         }
         System.out.println("Incorrect Password");

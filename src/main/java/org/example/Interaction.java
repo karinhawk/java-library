@@ -18,7 +18,15 @@ public class Interaction {
         this.exit = exit;
     }
 
+    private boolean loggedIn;
 
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 
     public void welcome(){
         System.out.println(" __    __ ____  ____   ___  ____  _  _      ___   __  __ __    __ __  __  ____\n" +
@@ -65,30 +73,36 @@ public class Interaction {
         return null;
     }
 
-    public Admin loginAdmin() throws IOException {
+    public Admin loginAdmin(Interaction interaction) throws IOException {
         Map adminsMap = accounts.getAdminsFromFile();
-        System.out.println("Enter your username");
-        String usernameInput = scanner.nextLine();
-        String password = accounts.grabAdminUsername(usernameInput, adminsMap);
-        if(password == null){
-            System.out.println("That admin username doesn't seem to exist. Please try again.");
-        }
-        System.out.println("Please enter your password");
-        String passwordInput = scanner.nextLine();
-        return accounts.adminPasswordCorrect(passwordInput, password, usernameInput);
+        setLoggedIn(false);
+        do {
+            System.out.println("Enter your username");
+            String usernameInput = scanner.nextLine();
+            String password = accounts.grabAdminUsername(usernameInput, adminsMap);
+            if (password == null) {
+                System.out.println("That admin username doesn't seem to exist. Please try again.");
+            }
+            System.out.println("Please enter your password");
+            String passwordInput = scanner.nextLine();
+            return accounts.adminPasswordCorrect(passwordInput, password, usernameInput, interaction);
+        }while(!loggedIn);
     }
 
-    public User loginUser() throws IOException {
+    public User loginUser(Interaction interaction) throws IOException {
         Map usersMap = accounts.getUsersFromFile();
-        System.out.println("Enter your username");
-        String usernameInput = scanner.nextLine();
-        String password = accounts.grabUserUsername(usernameInput, usersMap);
-        if(password == null){
-            System.out.println("That user username doesn't seem to exist. Please try again.");
-        }
-        System.out.println("Please enter your password");
-        String passwordInput = scanner.nextLine();
-        return accounts.userPasswordCorrect(passwordInput, password, usernameInput);
+        setLoggedIn(false);
+        do {
+            System.out.println("Enter your username");
+            String usernameInput = scanner.nextLine();
+            String password = accounts.grabUserUsername(usernameInput, usersMap);
+            if (password == null) {
+                System.out.println("That user username doesn't seem to exist. Please try again.");
+            }
+            System.out.println("Please enter your password");
+            String passwordInput = scanner.nextLine();
+            return accounts.userPasswordCorrect(passwordInput, password, usernameInput, interaction);
+        }while (!loggedIn);
     }
 
     public void userActionsList(){
