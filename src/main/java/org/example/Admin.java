@@ -16,42 +16,28 @@ import java.util.Map;
 public class Admin extends Person {
 
 
-
     public Admin(String username, String password) {
         super(username, password);
     }
 
     @Override
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return true;
     }
 
-    public void reportOfBooksOnLoan(){
+    public void reportOfBooksOnLoan() {
 
     }
 
-    public int timesLoanedOut(Book book){
+    public int timesLoanedOut(Book book) {
         return book.getTimesLoaned();
     }
 
-    public void getListOfUsers() throws IOException {
-
-        InputStream is = new FileInputStream("src/main/resources/users.json");
-        Reader r = new InputStreamReader(is, "UTF-8");
-        Gson gson = new GsonBuilder().create();
-        JsonStreamParser p = new JsonStreamParser(r);
-        System.out.println("Users:");
-
-        while(p.hasNext()){
-            JsonElement e = p.next();
-            if(e.isJsonObject()){
-                Map<String, String> m = gson.fromJson(e, Map.class);
-                for (Map.Entry<String, String> entry: m.entrySet()) {
-                    System.out.println(entry.getKey());
-                }
-            }
-        }
-
+    public void getListOfUsers(Accounts accounts) throws IOException {
+        Map usersMap = accounts.getUsersFromFile();
+        usersMap.forEach((key, value) -> {
+            System.out.println(key);
+        });
     }
 
     public void runReport(List<Book> bookList) {

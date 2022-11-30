@@ -65,24 +65,20 @@ public class Interaction {
         return null;
     }
 
-    public Admin loginAdmin(int selection, Admin admin) throws IOException {
-        Admin[] allAdmins = accounts.getAdminsFromFile(scanner);
+    public Admin loginAdmin() throws IOException {
+        Map adminsMap = accounts.getAdminsFromFile();
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
-        String password = accounts.grabAdminUsername(usernameInput, allAdmins);
+        String password = accounts.grabAdminUsername(usernameInput, adminsMap);
         if(password == null){
             System.out.println("That admin username doesn't seem to exist. Please try again.");
         }
         System.out.println("Please enter your password");
         String passwordInput = scanner.nextLine();
-        if(accounts.adminPasswordCorrect(passwordInput, password, admin)){
-            return admin;
-        } else {
-            return null;
-        }
+        return accounts.adminPasswordCorrect(passwordInput, password, usernameInput);
     }
 
-    public User loginUser(int selection, User user) throws IOException {
+    public User loginUser() throws IOException {
         Map usersMap = accounts.getUsersFromFile();
         System.out.println("Enter your username");
         String usernameInput = scanner.nextLine();
@@ -152,7 +148,7 @@ public class Interaction {
                 break;
             case 3:
                 System.out.println("you have selected to view a list of all users");
-                admin.getListOfUsers();
+                admin.getListOfUsers(accounts);
                 break;
             case 4:
                 System.out.println("you have selected to run a report on all loaned books");

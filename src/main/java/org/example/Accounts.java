@@ -35,64 +35,61 @@ public class Accounts {
         usersBw.write(userString);
         usersBw.close();
         usersFw.close();
-
-        System.out.println(user);
         return user;
     }
 
     public Admin registerAdmin(Interaction interaction, int selection, Library library, File adminsFile) throws IOException {
         Admin admin = new Admin(interaction.createUsername(selection), interaction.createPassword(selection));
-        library.getAdmins().put(admin.getUsername(), admin.getPassword());
 
         FileWriter adminsFw = new FileWriter(adminsFile.getAbsoluteFile(), true);
         BufferedWriter adminsBw = new BufferedWriter(adminsFw);
-        JSONObject jsonAdmins = new JSONObject(library.getAdmins());
+        String adminString = admin.getUsername() + ", " + admin.getPassword();
 
-        adminsBw.write(String.valueOf(jsonAdmins));
+        adminsBw.newLine();
+        adminsBw.write(adminString);
         adminsBw.close();
         adminsFw.close();
         return admin;
     }
 
-    public Admin[] getAdminsFromFile(Scanner scanner) throws IOException {
+    public Map<String, String> getAdminsFromFile() throws IOException {
         InputStream is = new FileInputStream("src/main/resources/admins.json");
-        Reader r = new InputStreamReader(is, "UTF-8");
-        Gson gson = new GsonBuilder().create();
-        JsonStreamParser p = new JsonStreamParser(r);
-        List<Map> allAdmins = new ArrayList<>();
+        Map<String, String> adminsMap = new HashMap<>();
 
-        //String myJson = gson.
-        return gson.fromJson(r, Admin[].class);
-
-//        do{
-//            JsonElement e = p.next();
-//            if(e.isJsonObject()){
-//                Map<String,String> adminsMap = gson.fromJson(e, Map.class);
-//                allAdmins.add(adminsMap);
-//            }
-//            System.out.println(allAdmins);
-//            return allAdmins;
-//        } while(p.hasNext());
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] values = line.split(", ");
+                String username = values[0];
+                String password = values[1];
+                adminsMap.put(username, password);
+            }
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return adminsMap;
     }
 
 
-    public String grabAdminUsername(String usernameInput, Admin[] allAdmins){
-        for (Admin admin: allAdmins) {
-//            for (Object key: admin.keySet()) {
-//                if(key.equals(usernameInput)) {
-//                    System.out.println(allAdmins.get(allAdmins.indexOf(key)+1).get(key).toString());
-//                    return allAdmins.get(allAdmins.indexOf(key)+1).get(key).toString();
-//                }
-//            }
+    public String grabAdminUsername(String usernameInput, Map adminsMap){
+        for (Object key: adminsMap.keySet()) {
+            if(key.equals(usernameInput)) {
+                return (String) adminsMap.get(key);
+            }
         }
         return null;
     }
 
-    public boolean adminPasswordCorrect(String passwordInput, String password, Admin admin){
+    public Admin adminPasswordCorrect(String passwordInput, String password, String usernameInput){
         if(passwordInput.equals(password)){
-            return true;
+            System.out.println("successfully logged in");
+            Admin admin = new Admin(usernameInput, password);
+            return admin;
         }
-        return false;
+        System.out.println("Incorrect Password");
+        return null;
     }
 
 
@@ -100,9 +97,6 @@ public class Accounts {
     public Map<String, String> getUsersFromFile() throws IOException {
         InputStream is = new FileInputStream("src/main/resources/users.json");
         Map<String, String> usersMap = new HashMap<>();
-//        for(Map.Entry<String, String> entry : usersMap.entrySet()){
-//            System.out.println( entry.getKey() + " => " + entry.getValue() );
-//        }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             while (reader.ready()) {
@@ -111,7 +105,6 @@ public class Accounts {
                 String username = values[0];
                 String password = values[1];
                 usersMap.put(username, password);
-                System.out.println(usersMap);
             }
         }catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -134,8 +127,6 @@ public class Accounts {
         if(passwordInput.equals(password)){
             System.out.println("successfully logged in");
             User user = new User(usernameInput, password);
-            user.setUsername(usernameInput);
-            user.setPassword(password);
             return user;
         }
         System.out.println("Incorrect Password");

@@ -1,20 +1,11 @@
 package org.example;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.simple.parser.ParseException;
-
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         File usersFile = new File("src/main/resources/users.json");
         File adminsFile = new File("src/main/resources/admins.json");
@@ -24,11 +15,9 @@ public class Main {
         Library library = new Library();
         Scanner scanner = new Scanner(System.in);
         Accounts accounts = new Accounts();
-
-        //STORE USERS AS USERNAME, PASSWORD NOT AS JSON OMG
+        List<Book> bookList = library.fillBookshelves();
 
         do{
-        List<Book> bookList = library.fillBookshelves();
         interaction.welcome();
         int selection = scanner.nextInt();
         User user = null;

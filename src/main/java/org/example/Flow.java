@@ -18,13 +18,13 @@ public class Flow {
         if (selection == 1) {
             return accounts.registerUser(interaction, selection, library, usersFile);
         } else if (selection == 2) {
-            return accounts.registerAdmin(interaction, selection, library, usersFile);
+            return accounts.registerAdmin(interaction, selection, library, adminsFile);
         } else if (selection == 3){
             System.out.println("You are logging in as a user");
-            return interaction.loginUser(selection, user);
+            return interaction.loginUser();
         } else {
             System.out.println("You are logging in as an admin");
-            return interaction.loginAdmin(selection, admin);
+            return interaction.loginAdmin();
         }
     }
 
