@@ -145,7 +145,8 @@ public class Interaction {
         System.out.println("2) Check library stats");
         System.out.println("3) View list of users");
         System.out.println("4) Run report of loaned books");
-        System.out.println("5) Log out");
+        System.out.println("5) Search for a book");
+        System.out.println("6) Log out");
         System.out.println("---------------------------------------------");
     }
 
@@ -167,6 +168,11 @@ public class Interaction {
             case 4:
                 System.out.println("you have selected to run a report on all loaned books");
                 admin.runReport(bookList);
+                break;
+            case 5:
+                System.out.println("You have selected to search for a specific book. Please type in the Title:");
+                String title = scanner.nextLine();
+                library.adminSearchBook(title, bookList);
                 break;
             default:
                 wannaExit(scanner);

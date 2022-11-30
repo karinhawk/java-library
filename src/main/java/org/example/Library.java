@@ -61,7 +61,6 @@ public class Library {
     }
 
     public int countBooksAvailable(List<Book> bookList){
-        //booklist if book !isLoaned then add one to available
         List<Book> numberOfAvailableBooks = new ArrayList<>();
         for (Book book: bookList){
             if(!book.isLoaned()){
@@ -100,22 +99,21 @@ public class Library {
         return bookList;
     }
 
-    public void numberOfUsers(){
-        System.out.println("hi");
-    }
-
     public void searchForBook(String title, List<Book> bookList, Scanner scanner, User user) {
         for (Book book : bookList) {
             if (book.getTitle().toLowerCase().contains(title)) {
                 System.out.println(book.getInfo());
                 System.out.println(book.isLoaned());
-                if (book.isLoaned() == true) {
+                if (user.booksLoaned.contains(book)) {
                     System.out.println("You currently have this book on loan. Would you like to return it? Y/N");
                     if (Objects.equals(scanner.nextLine().toLowerCase(), "y")) {
                         user.returnBook(book);
                     } else {
                         System.out.println("Returning to main menu...");
                     }
+                } else if (book.isLoaned()){
+                    System.out.println("This book is currently unavailable");
+                    System.out.println("Returning to main menu...");
                 } else {
                     System.out.println("This book is currently available. Would you like to loan it?");
                     if (Objects.equals(scanner.nextLine().toLowerCase(), "y")) {
@@ -126,6 +124,15 @@ public class Library {
                 }
             } else {
                 continue;
+            }
+        }
+    }
+
+    public void adminSearchBook(String title, List<Book> bookList) {
+        for (Book book : bookList) {
+            if (book.getTitle().toLowerCase().contains(title)) {
+                System.out.println(book.getInfo());
+                System.out.println("This book has been loaned out " + book.getTimesLoaned() + " times");
             }
         }
     }
